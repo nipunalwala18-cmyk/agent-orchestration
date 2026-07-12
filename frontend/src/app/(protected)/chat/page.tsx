@@ -114,7 +114,7 @@ export default function ChatPage() {
         saveHistory(prev);
         return prev;
       });
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
       setMessages((prev) =>
         prev.map((msg) =>
@@ -182,7 +182,7 @@ export default function ChatPage() {
               Sandbox Stream Console
             </h4>
             <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
-              Test out the platform's async streaming API. Submit any prompt,
+              Test out the platform&apos;s async streaming API. Submit any prompt,
               and watch the response parse word-by-word in real time.
             </p>
           </div>

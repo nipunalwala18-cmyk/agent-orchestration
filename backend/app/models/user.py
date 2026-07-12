@@ -4,6 +4,7 @@ from sqlalchemy import String, DateTime, Boolean
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
+from typing import Optional
 from app.db.database import Base
 
 class User(Base):
@@ -19,7 +20,7 @@ class User(Base):
     email: Mapped[str] = mapped_column(
         String(255), unique=True, index=True, nullable=False
     )
-    hashed_password: Mapped[str] = mapped_column(String(255), nullable=False)
+    hashed_password: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),

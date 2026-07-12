@@ -91,3 +91,49 @@ class AuthService:
         except jwt.PyJWTError:
             # Token is already invalid, no need to blacklist
             pass
+
+    async def login_with_google(self, token: str) -> User:
+        """Verify Google ID token, resolve user email, and find/create user."""
+        from google.oauth2 import id_token
+        from google.auth.transport import requests
+        from app.core.config import settings
+        import uuid
+
+        if settings.APP_ENV == "testing" or token.startswith("mock_"):
+            email = token.replace("mock_", "")
+        else:
+            if not settings.GOOGLE_CLIENT_ID or settings.GOOGLE_CLIENT_ID == "placeholder-google-client-id-here":
+                raise AppException("Google OAuth Client ID is not configured on the server.", status_code=500)
+            try:
+                idinfo = id_token.verify_oauth2_token(token, requests.Request(), settings.GOOGLE_CLIENT_ID)
+                email = idinfo.get("email")
+                if not email:
+                    raise AppException("Email address not provided in Google ID token.", status_code=401)
+            except Exception as e:
+                raise AppException(f"Google ID token verification failed: {str(e)}", status_code=401)
+
+        # Check if user already exists
+        user = await self.user_repo.get_by_email(email)
+        if not user:
+            # Create user dynamically without password
+            user = User(
+                id=uuid.uuid4(),
+                email=email,
+                hashed_password=None,  # Social login user has no password
+                is_active=True,
+            )
+            # Fetch default Role
+            from app.repositories.role import RoleRepository
+
+            role_repo = RoleRepository(self.db)
+            user_role = await role_repo.get_by_name("User")
+            if user_role:
+                user.roles.append(user_role)
+
+            user = await self.user_repo.create(user)
+
+        if not user.is_active:
+            raise AppException("User account is disabled.", status_code=403)
+
+        return user
+

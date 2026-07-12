@@ -10,9 +10,12 @@ from app.db.session import get_db
 from app.main import app
 
 
-@pytest.fixture(scope="session")
+# Fixtures override dependencies
+
+
+@pytest.fixture
 def event_loop() -> Generator[asyncio.AbstractEventLoop, None, None]:
-    """Create an instance of the default event loop for the session."""
+    """Create an instance of the default event loop for each test."""
     loop = asyncio.get_event_loop_policy().new_event_loop()
     yield loop
     loop.close()

@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Script from "next/script";
 import { api } from "../../services/api";
 import { useAuthStore } from "../../store/auth";
 import { Cpu, Eye, EyeOff, Lock, Mail } from "lucide-react";
@@ -21,6 +22,68 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [googleInitialized, setGoogleInitialized] = useState(false);
+
+  const handleGoogleCallback = async (response: any) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const idToken = response.credential;
+      const res = await api.post("/api/v1/auth/google", { id_token: idToken });
+      const { access_token, refresh_token } = res.data.data;
+
+      // Fetch current user details
+      const meRes = await api.get("/api/v1/auth/me", {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      });
+      const user = meRes.data.data;
+
+      setAuth(user, access_token, refresh_token);
+      router.push("/dashboard");
+    } catch (err) {
+      const responseError = err as any;
+      setError(
+        responseError.response?.data?.message ||
+          "Google Authentication failed. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const initGoogle = () => {
+    const google = (window as any).google;
+    const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+
+    if (google && clientId) {
+      try {
+        google.accounts.id.initialize({
+          client_id: clientId,
+          callback: handleGoogleCallback,
+        });
+        const container = document.getElementById("google-signin-button");
+        if (container) {
+          google.accounts.id.renderButton(container, {
+            theme: "outline",
+            size: "large",
+            width: "382",
+            shape: "pill",
+          });
+          setGoogleInitialized(true);
+        }
+      } catch (err) {
+        console.error("Error rendering Google Sign-In button:", err);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && (window as any).google && !googleInitialized) {
+      initGoogle();
+    }
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,9 +126,10 @@ export default function LoginPage() {
         setAuth(user, access_token, refresh_token);
         router.push("/dashboard");
       }
-    } catch (err: any) {
+    } catch (err) {
+      const responseError = err as any;
       setError(
-        err.response?.data?.message ||
+        responseError.response?.data?.message ||
           "An error occurred. Please verify your credentials."
       );
     } finally {
@@ -197,6 +261,19 @@ export default function LoginPage() {
             </button>
           </form>
 
+          {/* Divider */}
+          <div className="relative my-6 flex items-center justify-center">
+            <div className="absolute inset-x-0 border-t border-zinc-200 dark:border-zinc-800"></div>
+            <span className="relative z-10 px-3 bg-white dark:bg-zinc-900 text-xs font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">
+              Or continue with
+            </span>
+          </div>
+
+          {/* Google Sign-In Button */}
+          <div className="w-full flex justify-center mb-4">
+            <div id="google-signin-button"></div>
+          </div>
+
           {/* Toggle Button */}
           <div className="mt-6 text-center">
             <button
@@ -214,6 +291,11 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
+      <Script
+        src="https://accounts.google.com/gsi/client"
+        strategy="lazyOnload"
+        onLoad={initGoogle}
+      />
     </main>
   );
 }

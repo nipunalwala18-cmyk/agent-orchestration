@@ -43,3 +43,8 @@ class TokenResponse(BaseModel):
 
 class TokenRefreshRequest(BaseModel):
     refresh_token: str
+
+
+class GoogleLoginRequest(BaseModel):
+    id_token: str
+

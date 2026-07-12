@@ -10,6 +10,7 @@ from app.schemas.auth import (
     UserLogin,
     UserOut,
     UserRegister,
+    GoogleLoginRequest,
 )
 from app.schemas.responses import APIResponse
 from app.services.auth import AuthService
@@ -93,3 +94,19 @@ async def get_me(
         message="Current user profile retrieved successfully.",
         data=UserOut.model_validate(current_user),
     )
+
+
+@router.post("/google", response_model=APIResponse[TokenResponse])
+async def google_login(
+    payload: GoogleLoginRequest, db: AsyncSession = Depends(get_db)
+) -> APIResponse[TokenResponse]:
+    """Verify Google token, resolve/create user, and retrieve JWT session tokens."""
+    auth_service = AuthService(db)
+    user = await auth_service.login_with_google(payload.id_token)
+    tokens = await auth_service.create_tokens(user)
+    return APIResponse(
+        success=True,
+        message="Google authentication successful.",
+        data=TokenResponse(**tokens),
+    )
+

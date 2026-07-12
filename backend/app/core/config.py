@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 from pydantic import computed_field
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from typing import Optional
 
 # Base directory pointing to the backend/ root folder
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -40,6 +41,9 @@ class Settings(BaseSettings):
 
     # AI/LLM SDK Integration
     OPENAI_API_KEY: str = ""
+
+    # Google OAuth Configuration
+    GOOGLE_CLIENT_ID: Optional[str] = None
 
     @computed_field
     @property

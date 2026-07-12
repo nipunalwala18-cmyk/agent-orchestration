@@ -81,3 +81,56 @@ async def test_get_me_success(client: AsyncClient, mock_db: AsyncMock) -> None:
     json_data = response.json()
     assert json_data["success"] is True
     assert json_data["data"]["email"] == "activeuser@test.com"
+
+
+async def test_google_login_new_user_success(
+    client: AsyncClient, mock_db: AsyncMock
+) -> None:
+    """Test Google login flow when registering a new user."""
+    user_role = Role(name="User", description="Default role")
+
+    mock_result = MagicMock()
+    # 1. get_by_email returns None (user doesn't exist)
+    # 2. get_by_name returns user_role
+    mock_result.scalars.return_value.first.side_effect = [None, user_role]
+    mock_db.execute.return_value = mock_result
+
+    response = await client.post(
+        "/api/v1/auth/google",
+        json={"id_token": "mock_newgoogleuser@test.com"},
+    )
+
+    assert response.status_code == 200
+    json_data = response.json()
+    assert json_data["success"] is True
+    assert "access_token" in json_data["data"]
+    assert "refresh_token" in json_data["data"]
+
+
+async def test_google_login_existing_user_success(
+    client: AsyncClient, mock_db: AsyncMock
+) -> None:
+    """Test Google login flow when user already exists in DB."""
+    existing_user = User(
+        id=uuid.uuid4(),
+        email="existinggoogleuser@test.com",
+        hashed_password=None,
+        is_active=True,
+    )
+
+    mock_result = MagicMock()
+    # get_by_email returns existing_user
+    mock_result.scalars.return_value.first.return_value = existing_user
+    mock_db.execute.return_value = mock_result
+
+    response = await client.post(
+        "/api/v1/auth/google",
+        json={"id_token": "mock_existinggoogleuser@test.com"},
+    )
+
+    assert response.status_code == 200
+    json_data = response.json()
+    assert json_data["success"] is True
+    assert "access_token" in json_data["data"]
+    assert "refresh_token" in json_data["data"]
+

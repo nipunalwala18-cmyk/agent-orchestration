@@ -25,9 +25,10 @@ export default function UsersPage() {
     try {
       const res = await api.get("/api/v1/users");
       setUsersList(res.data.data);
-    } catch (err: any) {
+    } catch (err) {
+      const responseError = err as any;
       setError(
-        err.response?.data?.message || "Failed to retrieve user listing."
+        responseError.response?.data?.message || "Failed to retrieve user listing."
       );
     } finally {
       setLoading(false);
@@ -40,7 +41,7 @@ export default function UsersPage() {
     } else {
       setLoading(false);
     }
-  }, []);
+  }, [hasPermission]);
 
   if (!hasPermission("users:read")) {
     return (
