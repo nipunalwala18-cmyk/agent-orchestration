@@ -61,6 +61,36 @@ services:
     networks:
       - platform_network
 
+  pgadmin:
+    image: dpage/pgadmin4:8
+    container_name: platform_pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@platform.com
+      PGADMIN_DEFAULT_PASSWORD: pgadmin_secure_password
+    ports:
+      - "8080:80"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - platform_network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: platform_frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    networks:
+      - platform_network
+
 networks:
   platform_network:
     driver: bridge

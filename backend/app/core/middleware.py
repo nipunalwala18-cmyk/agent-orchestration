@@ -7,7 +7,7 @@ from app.core.logging import logger
 
 
 class CoreMiddleware(BaseHTTPMiddleware):
-    """Core application middleware managing correlation IDs, execution timing, and security headers."""
+    """Core application middleware managing correlation IDs, execution timing, security headers, and structured logging."""
 
     async def dispatch(self, request: Request, call_next: Callable) -> Response:
         start_time = time.time()
@@ -17,8 +17,17 @@ class CoreMiddleware(BaseHTTPMiddleware):
         request.state.correlation_id = correlation_id
 
         client_host = request.client.host if request.client else "unknown"
+
+        # Log incoming request
         logger.info(
-            f"Correlation ID: {correlation_id} | Request: {request.method} {request.url.path} | IP: {client_host}"
+            {
+                "message": f"Incoming request: {request.method} {request.url.path}",
+                "method": request.method,
+                "path": request.url.path,
+                "client_ip": client_host,
+                "correlation_id": correlation_id,
+                "event": "request_start",
+            }
         )
 
         try:
@@ -30,22 +39,39 @@ class CoreMiddleware(BaseHTTPMiddleware):
             response.headers["X-Correlation-ID"] = correlation_id
             response.headers["X-Process-Time"] = f"{duration:.2f}ms"
 
-            # Attach HTTP security best practices headers
+            # Attach HTTP security headers (OWASP best practices)
             response.headers["X-Frame-Options"] = "DENY"
             response.headers["X-Content-Type-Options"] = "nosniff"
             response.headers["X-XSS-Protection"] = "1; mode=block"
             response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
 
+            # Log successful response
             logger.info(
-                f"Correlation ID: {correlation_id} | Completed: {request.method} {request.url.path} | "
-                f"Status: {response.status_code} | Duration: {duration:.2f}ms"
+                {
+                    "message": f"Request completed: {request.method} {request.url.path} with status {response.status_code}",
+                    "method": request.method,
+                    "path": request.url.path,
+                    "client_ip": client_host,
+                    "status_code": response.status_code,
+                    "duration_ms": round(duration, 2),
+                    "correlation_id": correlation_id,
+                    "event": "request_success",
+                }
             )
             return response
         except Exception as e:
             duration = (time.time() - start_time) * 1000
+            # Log exception
             logger.error(
-                f"Correlation ID: {correlation_id} | Failed: {request.method} {request.url.path} | "
-                f"Error: {str(e)} | Duration: {duration:.2f}ms",
+                {
+                    "message": f"Request failed: {request.method} {request.url.path} - {str(e)}",
+                    "method": request.method,
+                    "path": request.url.path,
+                    "client_ip": client_host,
+                    "duration_ms": round(duration, 2),
+                    "correlation_id": correlation_id,
+                    "event": "request_failure",
+                },
                 exc_info=True,
             )
             raise e

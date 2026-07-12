@@ -24,7 +24,17 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         logger.error(f"Error during Redis startup connection: {str(e)}")
 
+    # Seed default roles and permissions
+    try:
+        from app.db.database import SessionLocal
+        from app.db.seeder import seed_database
+        async with SessionLocal() as db_session:
+            await seed_database(db_session)
+    except Exception as e:
+        logger.error(f"Error during database seeding at startup: {str(e)}")
+
     yield
+
 
     # Teardown Redis connection
     logger.info("Shutting down AI Orchestration Platform Backend services...")
