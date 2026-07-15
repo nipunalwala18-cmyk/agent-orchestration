@@ -2,7 +2,7 @@
 
 An enterprise-grade, highly scalable AI Multi-Agent Orchestration Platform built with FastAPI (async database & memory channels) and Next.js 15.
 
-This is **Phase 1: Foundation Setup**. It establishes a clean monorepo codebase architecture, environment configs, security utilities, structured logging middleware, health-check status pathways, unit testing configurations, and Docker integration.
+This includes **Phase 2: AI Orchestration Core**. It adds a reusable LangGraph workflow foundation on top of the existing authentication, RBAC, database, Redis, and Docker setup. The phase uses only a deterministic Dummy Tool; it deliberately does not add business-domain agents, RAG, SQL, or web search.
 
 ---
 
@@ -114,6 +114,27 @@ The API endpoints will be accessible at:
 - Core Platform Root: `http://localhost:8000/`
 - Health Check: `http://localhost:8000/health`
 - Swagger UI Documentation: `http://localhost:8000/docs`
+
+### Phase 2 orchestration API
+
+Both endpoints preserve the existing JWT authentication and `chat:write` RBAC permission.
+
+- `POST /api/v1/orchestrate` executes the workflow and returns its final response.
+- `POST /api/v1/orchestrate/stream` emits Server-Sent Events for planning, tool execution, memory update, and completion. It uses the same event shape that future token streaming can extend.
+
+Example request body:
+
+```json
+{
+  "request": "Validate the orchestration pipeline",
+  "conversation_id": "optional-client-conversation-id"
+}
+```
+
+The default graph is `Planner -> Dummy Tool -> Memory -> Complete`. `MemoryService`
+depends only on the `MemoryStore` abstraction, so an in-memory implementation can be
+replaced with Redis or a vector-backed adapter without changing graph nodes. New tools
+are registered through `ToolRegistry`, and new agents through `AgentRegistry`.
 
 ---
 
