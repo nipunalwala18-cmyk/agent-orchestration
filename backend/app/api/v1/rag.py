@@ -1,7 +1,9 @@
 from typing import Annotated
 
-from fastapi import APIRouter, File, Form, HTTPException, Request, UploadFile
+from fastapi import APIRouter, Depends, File, Form, HTTPException, Request, UploadFile
+from typing import Optional
 
+from app.api.dependencies import get_current_user
 from app.schemas.responses import APIResponse
 from app.services.rag_service import RAGService
 from app.utils.decorators import require_permission
@@ -20,7 +22,8 @@ rag_service = RAGService()
 async def upload_document(
     request: Request,
     file: FastAPIUploadFile = File(...),
-    source_name: str | None = None,
+    source_name: Optional[str] = Form(None),
+    current_user=Depends(get_current_user),
 ) -> APIResponse[dict[str, object]]:
     if not file.filename:
         raise HTTPException(status_code=400, detail="A file name is required")
@@ -40,8 +43,9 @@ async def query_documents(
     request: Request,
     question: Annotated[str, Form(...)],
     top_k: Annotated[int, Form()] = 3,
+    current_user=Depends(get_current_user),
 ) -> APIResponse[dict[str, object]]:
-    result = rag_service.query(question, top_k=top_k)
+    result = await rag_service.query(question, top_k=top_k)
     return APIResponse(
         success=True,
         message="RAG answer generated.",

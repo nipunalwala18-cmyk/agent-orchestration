@@ -92,7 +92,7 @@ api.interceptors.response.use(
 
         // Fetch user profile using the new access token
         const meRes = await axios.get("/api/v1/auth/me", {
-          },
+          headers: { Authorization: `Bearer ${access_token}` },
         });
 
         const user = meRes.data.data;

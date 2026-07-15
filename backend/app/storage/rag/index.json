@@ -1,0 +1,517 @@
+[
+  {
+    "id": "a4860b6b-72de-465f-9c28-496fcccb3938",
+    "source": "MY_SOP.pdf",
+    "stored_path": "/app/app/storage/rag/a4860b6b-72de-465f-9c28-496fcccb3938-MY_SOP.pdf",
+    "chunks": [
+      {
+        "id": "a4860b6b-72de-465f-9c28-496fcccb3938-chunk-0",
+        "text": "CLI Cheat Sheet Build an Image from a Dockerfile Build an Image from a Dockerfile without the cache docker build -t <image_name> . \u2013no-cache List local images docker images Delete an Image docker rmi <image_name> Remove all unused images docker image prune Login into Docker docker login -u <username> Publish an image to Docker Hub docker push <username>/<image_name> Search Hub for an image docker search <image_name> Pull an image from a Docker Hub docker pull <image_name> Cre",
+        "chunk_index": 0
+      },
+      {
+        "id": "a4860b6b-72de-465f-9c28-496fcccb3938-chunk-1",
+        "text": "search <image_name> Pull an image from a Docker Hub docker pull <image_name> Create and run a container from an image, with a custom name: docker run --name <container_name> <image_name> Run a container with and publish a container\u2019s port(s) to the host. docker run -p <host_port>:<container_port> <image_name> Run a container in the background docker run -d <image_name> Start or stop an existing container: docker start|stop <container_name> (or <container-id>) Remove a stopped",
+        "chunk_index": 1
+      },
+      {
+        "id": "a4860b6b-72de-465f-9c28-496fcccb3938-chunk-2",
+        "text": "ntainer: docker start|stop <container_name> (or <container-id>) Remove a stopped container: docker rm <container_name> Open a shell inside a running container: docker exec -it <container_name> sh Fetch and follow the logs of a container: docker logs -f <container_name> To inspect a running container: docker inspect <container_name> (or <container_id>) To list currently running containers: docker ps List all docker containers (running and stopped): docker ps --all View resourc",
+        "chunk_index": 2
+      },
+      {
+        "id": "a4860b6b-72de-465f-9c28-496fcccb3938-chunk-3",
+        "text": "s List all docker containers (running and stopped): docker ps --all View resource usage stats docker container stats GENERAL COMMANDS Docker provides the ability to package and run an application in a loosely isolated environment called a container. The isolation and security allows you to run many containers simultaneously on a given host. Containers are lightweight and contain everything needed to run the application, so you do not need to rely on what is currently installe",
+        "chunk_index": 3
+      },
+      {
+        "id": "a4860b6b-72de-465f-9c28-496fcccb3938-chunk-4",
+        "text": "to run the application, so you do not need to rely on what is currently installed on the host. You can easily share containers while you work, and be sure that everyone you share with gets the same container that works in the same way. IMAGES Docker images are a lightweight, standalone, executable package of software that includes everything needed to run an application: code, runtime, system tools, system libraries and settings. DOCKER HUB Docker Hub is a service provided by",
+        "chunk_index": 4
+      },
+      {
+        "id": "a4860b6b-72de-465f-9c28-496fcccb3938-chunk-5",
+        "text": "s, system libraries and settings. DOCKER HUB Docker Hub is a service provided by Docker for finding and sharing container images with your team. Learn more and find images at https://hub.docker.com CONTAINERS A container is a runtime instance of a docker image. A container will always run the same, regardless of the infrastructure. Containers isolate software from its environment and ensure that it works uniformly despite differences for instance between development and stagi",
+        "chunk_index": 5
+      },
+      {
+        "id": "a4860b6b-72de-465f-9c28-496fcccb3938-chunk-6",
+        "text": "t works uniformly despite differences for instance between development and staging. Start the docker daemon docker -d Get help with Docker. Can also use \u2013help on all subcommands docker --help Display system-wide information docker info INSTALLATION Docker Desktop is available for Mac, Linux and Windows https://docs.docker.com/desktop View example projects that use Docker https://github.com/docker/awesome-compose Check out our docs for information on using Docker https://docs.",
+        "chunk_index": 6
+      },
+      {
+        "id": "a4860b6b-72de-465f-9c28-496fcccb3938-chunk-7",
+        "text": "awesome-compose Check out our docs for information on using Docker https://docs.docker.com docker build -t <image_name> .",
+        "chunk_index": 7
+      }
+    ]
+  },
+  {
+    "id": "0020a2ec-6bf2-4dc3-9417-57b20d6f644e",
+    "source": "MY_SOP.pdf",
+    "stored_path": "/app/app/storage/rag/0020a2ec-6bf2-4dc3-9417-57b20d6f644e-MY_SOP.pdf",
+    "chunks": [
+      {
+        "id": "0020a2ec-6bf2-4dc3-9417-57b20d6f644e-chunk-0",
+        "text": "CLI Cheat Sheet Build an Image from a Dockerfile Build an Image from a Dockerfile without the cache docker build -t <image_name> . \u2013no-cache List local images docker images Delete an Image docker rmi <image_name> Remove all unused images docker image prune Login into Docker docker login -u <username> Publish an image to Docker Hub docker push <username>/<image_name> Search Hub for an image docker search <image_name> Pull an image from a Docker Hub docker pull <image_name> Cre",
+        "chunk_index": 0
+      },
+      {
+        "id": "0020a2ec-6bf2-4dc3-9417-57b20d6f644e-chunk-1",
+        "text": "search <image_name> Pull an image from a Docker Hub docker pull <image_name> Create and run a container from an image, with a custom name: docker run --name <container_name> <image_name> Run a container with and publish a container\u2019s port(s) to the host. docker run -p <host_port>:<container_port> <image_name> Run a container in the background docker run -d <image_name> Start or stop an existing container: docker start|stop <container_name> (or <container-id>) Remove a stopped",
+        "chunk_index": 1
+      },
+      {
+        "id": "0020a2ec-6bf2-4dc3-9417-57b20d6f644e-chunk-2",
+        "text": "ntainer: docker start|stop <container_name> (or <container-id>) Remove a stopped container: docker rm <container_name> Open a shell inside a running container: docker exec -it <container_name> sh Fetch and follow the logs of a container: docker logs -f <container_name> To inspect a running container: docker inspect <container_name> (or <container_id>) To list currently running containers: docker ps List all docker containers (running and stopped): docker ps --all View resourc",
+        "chunk_index": 2
+      },
+      {
+        "id": "0020a2ec-6bf2-4dc3-9417-57b20d6f644e-chunk-3",
+        "text": "s List all docker containers (running and stopped): docker ps --all View resource usage stats docker container stats GENERAL COMMANDS Docker provides the ability to package and run an application in a loosely isolated environment called a container. The isolation and security allows you to run many containers simultaneously on a given host. Containers are lightweight and contain everything needed to run the application, so you do not need to rely on what is currently installe",
+        "chunk_index": 3
+      },
+      {
+        "id": "0020a2ec-6bf2-4dc3-9417-57b20d6f644e-chunk-4",
+        "text": "to run the application, so you do not need to rely on what is currently installed on the host. You can easily share containers while you work, and be sure that everyone you share with gets the same container that works in the same way. IMAGES Docker images are a lightweight, standalone, executable package of software that includes everything needed to run an application: code, runtime, system tools, system libraries and settings. DOCKER HUB Docker Hub is a service provided by",
+        "chunk_index": 4
+      },
+      {
+        "id": "0020a2ec-6bf2-4dc3-9417-57b20d6f644e-chunk-5",
+        "text": "s, system libraries and settings. DOCKER HUB Docker Hub is a service provided by Docker for finding and sharing container images with your team. Learn more and find images at https://hub.docker.com CONTAINERS A container is a runtime instance of a docker image. A container will always run the same, regardless of the infrastructure. Containers isolate software from its environment and ensure that it works uniformly despite differences for instance between development and stagi",
+        "chunk_index": 5
+      },
+      {
+        "id": "0020a2ec-6bf2-4dc3-9417-57b20d6f644e-chunk-6",
+        "text": "t works uniformly despite differences for instance between development and staging. Start the docker daemon docker -d Get help with Docker. Can also use \u2013help on all subcommands docker --help Display system-wide information docker info INSTALLATION Docker Desktop is available for Mac, Linux and Windows https://docs.docker.com/desktop View example projects that use Docker https://github.com/docker/awesome-compose Check out our docs for information on using Docker https://docs.",
+        "chunk_index": 6
+      },
+      {
+        "id": "0020a2ec-6bf2-4dc3-9417-57b20d6f644e-chunk-7",
+        "text": "awesome-compose Check out our docs for information on using Docker https://docs.docker.com docker build -t <image_name> .",
+        "chunk_index": 7
+      }
+    ]
+  },
+  {
+    "id": "9def2473-32fe-4fdf-9d05-549c269f89d0",
+    "source": "MY_SOP.pdf",
+    "stored_path": "/app/app/storage/rag/9def2473-32fe-4fdf-9d05-549c269f89d0-MY_SOP.pdf",
+    "chunks": [
+      {
+        "id": "9def2473-32fe-4fdf-9d05-549c269f89d0-chunk-0",
+        "text": "CLI Cheat Sheet Build an Image from a Dockerfile Build an Image from a Dockerfile without the cache docker build -t <image_name> . \u2013no-cache List local images docker images Delete an Image docker rmi <image_name> Remove all unused images docker image prune Login into Docker docker login -u <username> Publish an image to Docker Hub docker push <username>/<image_name> Search Hub for an image docker search <image_name> Pull an image from a Docker Hub docker pull <image_name> Cre",
+        "chunk_index": 0
+      },
+      {
+        "id": "9def2473-32fe-4fdf-9d05-549c269f89d0-chunk-1",
+        "text": "search <image_name> Pull an image from a Docker Hub docker pull <image_name> Create and run a container from an image, with a custom name: docker run --name <container_name> <image_name> Run a container with and publish a container\u2019s port(s) to the host. docker run -p <host_port>:<container_port> <image_name> Run a container in the background docker run -d <image_name> Start or stop an existing container: docker start|stop <container_name> (or <container-id>) Remove a stopped",
+        "chunk_index": 1
+      },
+      {
+        "id": "9def2473-32fe-4fdf-9d05-549c269f89d0-chunk-2",
+        "text": "ntainer: docker start|stop <container_name> (or <container-id>) Remove a stopped container: docker rm <container_name> Open a shell inside a running container: docker exec -it <container_name> sh Fetch and follow the logs of a container: docker logs -f <container_name> To inspect a running container: docker inspect <container_name> (or <container_id>) To list currently running containers: docker ps List all docker containers (running and stopped): docker ps --all View resourc",
+        "chunk_index": 2
+      },
+      {
+        "id": "9def2473-32fe-4fdf-9d05-549c269f89d0-chunk-3",
+        "text": "s List all docker containers (running and stopped): docker ps --all View resource usage stats docker container stats GENERAL COMMANDS Docker provides the ability to package and run an application in a loosely isolated environment called a container. The isolation and security allows you to run many containers simultaneously on a given host. Containers are lightweight and contain everything needed to run the application, so you do not need to rely on what is currently installe",
+        "chunk_index": 3
+      },
+      {
+        "id": "9def2473-32fe-4fdf-9d05-549c269f89d0-chunk-4",
+        "text": "to run the application, so you do not need to rely on what is currently installed on the host. You can easily share containers while you work, and be sure that everyone you share with gets the same container that works in the same way. IMAGES Docker images are a lightweight, standalone, executable package of software that includes everything needed to run an application: code, runtime, system tools, system libraries and settings. DOCKER HUB Docker Hub is a service provided by",
+        "chunk_index": 4
+      },
+      {
+        "id": "9def2473-32fe-4fdf-9d05-549c269f89d0-chunk-5",
+        "text": "s, system libraries and settings. DOCKER HUB Docker Hub is a service provided by Docker for finding and sharing container images with your team. Learn more and find images at https://hub.docker.com CONTAINERS A container is a runtime instance of a docker image. A container will always run the same, regardless of the infrastructure. Containers isolate software from its environment and ensure that it works uniformly despite differences for instance between development and stagi",
+        "chunk_index": 5
+      },
+      {
+        "id": "9def2473-32fe-4fdf-9d05-549c269f89d0-chunk-6",
+        "text": "t works uniformly despite differences for instance between development and staging. Start the docker daemon docker -d Get help with Docker. Can also use \u2013help on all subcommands docker --help Display system-wide information docker info INSTALLATION Docker Desktop is available for Mac, Linux and Windows https://docs.docker.com/desktop View example projects that use Docker https://github.com/docker/awesome-compose Check out our docs for information on using Docker https://docs.",
+        "chunk_index": 6
+      },
+      {
+        "id": "9def2473-32fe-4fdf-9d05-549c269f89d0-chunk-7",
+        "text": "awesome-compose Check out our docs for information on using Docker https://docs.docker.com docker build -t <image_name> .",
+        "chunk_index": 7
+      }
+    ]
+  },
+  {
+    "id": "c193c307-ac59-4311-a618-4b034b7483db",
+    "source": "MY_SOP.pdf",
+    "stored_path": "/app/app/storage/rag/c193c307-ac59-4311-a618-4b034b7483db-MY_SOP.pdf",
+    "chunks": [
+      {
+        "id": "c193c307-ac59-4311-a618-4b034b7483db-chunk-0",
+        "text": "CLI Cheat Sheet Build an Image from a Dockerfile Build an Image from a Dockerfile without the cache docker build -t <image_name> . \u2013no-cache List local images docker images Delete an Image docker rmi <image_name> Remove all unused images docker image prune Login into Docker docker login -u <username> Publish an image to Docker Hub docker push <username>/<image_name> Search Hub for an image docker search <image_name> Pull an image from a Docker Hub docker pull <image_name> Cre",
+        "chunk_index": 0
+      },
+      {
+        "id": "c193c307-ac59-4311-a618-4b034b7483db-chunk-1",
+        "text": "search <image_name> Pull an image from a Docker Hub docker pull <image_name> Create and run a container from an image, with a custom name: docker run --name <container_name> <image_name> Run a container with and publish a container\u2019s port(s) to the host. docker run -p <host_port>:<container_port> <image_name> Run a container in the background docker run -d <image_name> Start or stop an existing container: docker start|stop <container_name> (or <container-id>) Remove a stopped",
+        "chunk_index": 1
+      },
+      {
+        "id": "c193c307-ac59-4311-a618-4b034b7483db-chunk-2",
+        "text": "ntainer: docker start|stop <container_name> (or <container-id>) Remove a stopped container: docker rm <container_name> Open a shell inside a running container: docker exec -it <container_name> sh Fetch and follow the logs of a container: docker logs -f <container_name> To inspect a running container: docker inspect <container_name> (or <container_id>) To list currently running containers: docker ps List all docker containers (running and stopped): docker ps --all View resourc",
+        "chunk_index": 2
+      },
+      {
+        "id": "c193c307-ac59-4311-a618-4b034b7483db-chunk-3",
+        "text": "s List all docker containers (running and stopped): docker ps --all View resource usage stats docker container stats GENERAL COMMANDS Docker provides the ability to package and run an application in a loosely isolated environment called a container. The isolation and security allows you to run many containers simultaneously on a given host. Containers are lightweight and contain everything needed to run the application, so you do not need to rely on what is currently installe",
+        "chunk_index": 3
+      },
+      {
+        "id": "c193c307-ac59-4311-a618-4b034b7483db-chunk-4",
+        "text": "to run the application, so you do not need to rely on what is currently installed on the host. You can easily share containers while you work, and be sure that everyone you share with gets the same container that works in the same way. IMAGES Docker images are a lightweight, standalone, executable package of software that includes everything needed to run an application: code, runtime, system tools, system libraries and settings. DOCKER HUB Docker Hub is a service provided by",
+        "chunk_index": 4
+      },
+      {
+        "id": "c193c307-ac59-4311-a618-4b034b7483db-chunk-5",
+        "text": "s, system libraries and settings. DOCKER HUB Docker Hub is a service provided by Docker for finding and sharing container images with your team. Learn more and find images at https://hub.docker.com CONTAINERS A container is a runtime instance of a docker image. A container will always run the same, regardless of the infrastructure. Containers isolate software from its environment and ensure that it works uniformly despite differences for instance between development and stagi",
+        "chunk_index": 5
+      },
+      {
+        "id": "c193c307-ac59-4311-a618-4b034b7483db-chunk-6",
+        "text": "t works uniformly despite differences for instance between development and staging. Start the docker daemon docker -d Get help with Docker. Can also use \u2013help on all subcommands docker --help Display system-wide information docker info INSTALLATION Docker Desktop is available for Mac, Linux and Windows https://docs.docker.com/desktop View example projects that use Docker https://github.com/docker/awesome-compose Check out our docs for information on using Docker https://docs.",
+        "chunk_index": 6
+      },
+      {
+        "id": "c193c307-ac59-4311-a618-4b034b7483db-chunk-7",
+        "text": "awesome-compose Check out our docs for information on using Docker https://docs.docker.com docker build -t <image_name> .",
+        "chunk_index": 7
+      }
+    ]
+  },
+  {
+    "id": "1dc77810-bd25-4da9-804b-910933fe06ce",
+    "source": "EduMind_Final.pdf",
+    "stored_path": "/app/app/storage/rag/1dc77810-bd25-4da9-804b-910933fe06ce-EduMind_Final.pdf",
+    "chunks": [
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-0",
+        "text": "EduMind: Development of an Agentic AI Assistant for Engineering College SOPs, Policies, Circulars, and Institutional Knowledge Management Author Name(s) Department of Computer Science and Engineering Vidyalankar Institute of Technology, University of Mumbai email@example.edu Abstract\u2014Engineering colleges generate vast institutional documentation\u2014SOPs, examination policies, circulars, and accreditation records\u2014scattered across heterogeneous repositories, making reliable retrie",
+        "chunk_index": 0
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-1",
+        "text": "tion records\u2014scattered across heterogeneous repositories, making reliable retrieval slow and inconsistent. This paper presents EduMind, an Agentic AI Assistant that functions as a centralized institutional knowledge management system, combining Retrieval-Augmented Generation (RAG), hybrid retrieval (dense semantic search and BM25 lexical search fused via Reciprocal Rank Fusion), cross-encoder reranking, and LangGraph-based multi-agent orchestration to produce accurate, citati",
+        "chunk_index": 1
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-2",
+        "text": "nking, and LangGraph-based multi-agent orchestration to produce accurate, citation-grounded answers. Documents are ingested through a pipeline of cleaning, semantic chunking, metadata extraction, and embedding generation, then persisted in ChromaDB. Retrieved evidence flows through agents for query analysis, retrieval planning, context validation, response generation, citation formatting, and confidence evaluation before a locally hosted Qwen2.5:7B model (via Ollama), with an",
+        "chunk_index": 2
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-3",
+        "text": "idence evaluation before a locally hosted Qwen2.5:7B model (via Ollama), with an optional cloud-based HuggingFace Inference API backend for scalable deployment, generates the final answer. Role-Based Access Control, JWT authentication, a committee-based document submission and admin-approval workflow, and deterministic citation generation enforce institutional security, governance, and transparency. The system was validated with over 570 unit and integration tests across inge",
+        "chunk_index": 3
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-4",
+        "text": "y. The system was validated with over 570 unit and integration tests across ingestion, retrieval, reranking, authentication, and end-to-end RAG functionality, indexing approximately 627 chunks extracted from 20 institutional SOP documents spanning 20 departments of an engineering college. Results confirm the architecture delivers efficient, transparent, privacy-preserving institutional knowledge retrieval, with extensibility toward multilingual interaction, ERP integration, a",
+        "chunk_index": 4
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-5",
+        "text": "etrieval, with extensibility toward multilingual interaction, ERP integration, and autonomous institutional automation. Keywords\u2014Agentic AI, Retrieval-Augmented Generation, Institutional Knowledge Management, Hybrid Retrieval, ChromaDB, LangGraph, Cross-Encoder Reranking, Role-Based Access Control, Large Language Models. I. Introduction Educational institutions continuously generate large collections of digital documents \u2014 academic regulations, admission guidelines, examinati",
+        "chunk_index": 5
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-6",
+        "text": "ons of digital documents \u2014 academic regulations, admission guidelines, examination policies, accreditation reports, faculty manuals, hostel and finance policies, circulars, and numerous SOPs. Despite their importance, these documents are fragmented across departmental archives, email, institutional websites, and ERP systems, making relevant information difficult to locate, especially when users are unsure of exact titles or storage locations. Traditional keyword search perfor",
+        "chunk_index": 6
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-7",
+        "text": "e unsure of exact titles or storage locations. Traditional keyword search performs poorly on natural-language queries such as \u201cWhat is the minimum attendance required to appear for semester examinations?\u201d because relevant information may be phrased differently across documents. While Large Language Models (LLMs) have advanced conversational AI, standalone models often generate responses from pretrained knowledge rather than institutional policy, producing hallucinations unsui",
+        "chunk_index": 7
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-8",
+        "text": "ained knowledge rather than institutional policy, producing hallucinations unsuitable for official environments where correctness and accountability are critical. Retrieval-Augmented Generation (RAG) mitigates this by retrieving verified evidence before generation. However, institutional queries require both semantic understanding and exact lexical matching \u2014 acronyms, course codes, and regulation numbers demand lexical retrieval, while policy questions benefit from semantic",
+        "chunk_index": 8
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-9",
+        "text": "numbers demand lexical retrieval, while policy questions benefit from semantic similarity. This motivates a hybrid retrieval approach. This paper presents an Agentic AI Assistant for engineering colleges that integrates hybrid retrieval (dense + BM25 with RRF), cross-encoder reranking, citation-aware generation, role- based document security, and LangGraph-based multi-agent reasoning. The assistant runs entirely on locally deployed models, preserving institutional privacy an",
+        "chunk_index": 9
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-10",
+        "text": "nt runs entirely on locally deployed models, preserving institutional privacy and establishing a scalable foundation for future autonomous administrative workflows. Beyond simple factual lookup, institutional users frequently pose compound or ambiguous queries that reference multiple policies simultaneously, require disambiguation between superseded and current regulations, or depend on the requester's role for an appropriate answer. A purpose-built assistant must therefore r",
+        "chunk_index": 10
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-11",
+        "text": "ter's role for an appropriate answer. A purpose-built assistant must therefore reason about retrieval strategy, validate evidence quality, and adapt its response scope to the user's authorization level rather than treating every query identically. These requirements motivate the agentic, multi-stage design adopted in this work, in contrast to single-pass retrieve-then-generate pipelines that cannot adapt mid-query. II. Related Work Lexical methods such as BM25 rank documents",
+        "chunk_index": 11
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-12",
+        "text": "t adapt mid-query. II. Related Work Lexical methods such as BM25 rank documents via keyword overlap and are efficient when exact terminology is known, but struggle with synonyms and natural-language phrasing. Transformer-based embedding models (e.g., BGE, E5, Sentence-Transformers) enable semantic search using vector similarity, though they may miss exact identifiers such as subject codes. Hybrid retrieval, combining BM25 with dense vectors, has been shown to improve both rec",
+        "chunk_index": 12
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-13",
+        "text": "retrieval, combining BM25 with dense vectors, has been shown to improve both recall and precision; Reciprocal Rank Fusion (RRF) is a widely used strategy for merging such ranked lists while reducing single-method bias. Cross-encoder rerankers jointly process query-document pairs for deeper semantic comparison, improving final context quality at higher computational cost. RAG itself has become central to reducing hallucination by grounding generation in retrieved evidence, whi",
+        "chunk_index": 13
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-14",
+        "text": "ral to reducing hallucination by grounding generation in retrieved evidence, while Agentic AI frameworks such as LangGraph extend RAG with coordinated multi-agent reasoning for planning, validation, and reflection. Commercial document-QA assistants generally lack version awareness, deterministic citations, role-based access control, or local inference for data governance. This work addresses these gaps by integrating hybrid retrieval, reranking, citation-aware RAG, multi-agen",
+        "chunk_index": 14
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-15",
+        "text": "gaps by integrating hybrid retrieval, reranking, citation-aware RAG, multi-agent orchestration, RBAC, and fully local LLM deployment into a single institutional architecture. A further distinction from prior institutional chatbot efforts is the treatment of retrieval as an iterative, evaluable process rather than a single fixed step. Most published RAG systems for education retrieve once and generate immediately, with no mechanism to detect or recover from weak retrieval. By",
+        "chunk_index": 15
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-16",
+        "text": "rate immediately, with no mechanism to detect or recover from weak retrieval. By contrast, agentic frameworks that incorporate explicit confidence estimation and reflection loops can identify when retrieved evidence is insufficient and autonomously trigger broader or reformulated retrieval, more closely resembling how a human administrator would handle an ambiguous request by consulting additional sources before answering. III. Problem Statement Engineering colleges generate",
+        "chunk_index": 16
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-17",
+        "text": "sources before answering. III. Problem Statement Engineering colleges generate growing volumes of documents spanning academic, administrative, financial, and operational domains, distributed across departmental repositories, cloud storage, ERP systems, and email. Locating the correct, current version of a policy is time-consuming and error-prone, and different departments may give inconsistent answers based on outdated documentation. Conventional repositories rarely combine",
+        "chunk_index": 17
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-18",
+        "text": "swers based on outdated documentation. Conventional repositories rarely combine intelligent retrieval with fine-grained access control, risking disclosure of confidential material, while standalone LLMs may answer from pretrained knowledge rather than official policy. An intelligent system is therefore needed that understands natural language, retrieves from verified institutional sources, enforces RBAC, and produces citation-supported, transparent responses. IV. Research Obj",
+        "chunk_index": 18
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-19",
+        "text": "s RBAC, and produces citation-supported, transparent responses. IV. Research Objectives \u2022 Develop a conversational assistant answering institutional queries from official documents. \u2022 Build an automated ingestion pipeline with chunking, metadata extraction, and vector indexing. \u2022 Implement hybrid retrieval combining dense semantic search and BM25. \u2022 Improve retrieval via Reciprocal Rank Fusion and cross- encoder reranking. \u2022 Generate citation-supported, context-aware response",
+        "chunk_index": 19
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-20",
+        "text": "cross- encoder reranking. \u2022 Generate citation-supported, context-aware responses using RAG. \u2022 Enforce Role-Based Access Control for secure retrieval. \u2022 Deploy locally hosted LLMs to preserve institutional privacy. \u2022 Integrate a LangGraph multi-agent workflow with planning, validation, and reflection. \u2022 Design a modular architecture extensible to ERP integration and multilingual support. Institutional Documents \u2193 Ingestion & Chunking \u2193 Embedding (BGE) \u2193 ChromaDB Store \u2193 Hybri",
+        "chunk_index": 20
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-21",
+        "text": "onal Documents \u2193 Ingestion & Chunking \u2193 Embedding (BGE) \u2193 ChromaDB Store \u2193 Hybrid Retrieval (Dense+BM25+RRF) \u2193 Cross-Encoder Reranker \u2193 LangGraph Agents \u2193 Qwen2.5:7B (Ollama) \u2193 Citation Engine \u2192 Response Fig. 1. Overall system architecture: ingestion through hybrid retrieval, multi-agent reasoning, and citation-aware response generation. V. Proposed Methodology The proposed Agentic AI Assistant separates document ingestion from query processing, transforming institutional doc",
+        "chunk_index": 21
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-22",
+        "text": "parates document ingestion from query processing, transforming institutional documents into a structured knowledge base ahead of runtime, then serving queries through hybrid retrieval and multi-agent reasoning. The methodology spans six phases: document processing, embedding generation, hybrid retrieval, multi-agent reasoning, response generation, and citation/confidence evaluation. This separation of concerns offers two practical benefits for institutional deployment. First,",
+        "chunk_index": 22
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-23",
+        "text": "n of concerns offers two practical benefits for institutional deployment. First, the computationally expensive ingestion phase \u2014 text extraction, chunking, and embedding \u2014 can be scheduled offline or triggered only when new documents are uploaded, keeping query-time latency low. Second, because the knowledge base is decoupled from the reasoning layer, the underlying LLM, reranker, or embedding model can be upgraded independently without re-architecting the retrieval pipeline,",
+        "chunk_index": 23
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-24",
+        "text": "el can be upgraded independently without re-architecting the retrieval pipeline, supporting long-term maintainability as institutional requirements evolve. A. Document Processing Pipeline Documents (SOPs, regulations, manuals, circulars, reports) are loaded, text-extracted, cleaned, and de-duplicated using SHA- 256 hashing. Metadata \u2014 department, category, version, access level, source \u2014 is extracted per document, and large PDFs are split into semantically coherent chunks tha",
+        "chunk_index": 24
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-25",
+        "text": "ted per document, and large PDFs are split into semantically coherent chunks that preserve context while improving retrieval precision. B. Embedding Generation Each chunk is embedded using BAAI/bge-base-en-v1.5, producing dense vectors that capture semantic relationships beyond keyword overlap. Embeddings are generated in batches, cached locally, and stored with metadata in ChromaDB, ensuring fully offline operation independent of cloud APIs. C. Vector Database Design ChromaD",
+        "chunk_index": 25
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-26",
+        "text": "y offline operation independent of cloud APIs. C. Vector Database Design ChromaDB stores embeddings alongside metadata \u2014 document ID, department, category, version, section heading, chunk index, source file, and access level \u2014 enabling role-aware filtering and deterministic citation. At evaluation time, the knowledge base contained approximately 627 indexed chunks. D. Hybrid Retrieval Engine Dense retrieval compares query and document embeddings to capture conceptually relate",
+        "chunk_index": 26
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-27",
+        "text": "retrieval compares query and document embeddings to capture conceptually related content (e.g., attendance policy, leave rules) even under different phrasing. BM25 lexical retrieval complements this by matching exact identifiers such as subject codes and circular numbers. Because the two methods produce independent ranked lists, Reciprocal Rank Fusion merges them, favoring documents that rank highly across both lists and improving recall, ranking stability, and robustness. U",
+        "chunk_index": 27
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-28",
+        "text": "hly across both lists and improving recall, ranking stability, and robustness. User Query \u2193 Dense Search + BM25 (parallel) \u2193 Reciprocal Rank Fusion \u2193 Cross-Encoder Reranker \u2193 Top-K Chunks Fig. 2. Hybrid retrieval pipeline: dense and BM25 results fused via RRF, then cross-encoder reranked. E. Cross-Encoder Reranking The BAAI/bge-reranker-base cross-encoder jointly processes each query-document pair from the fused candidate set, producing refined relevance scores that better ca",
+        "chunk_index": 28
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-29",
+        "text": "from the fused candidate set, producing refined relevance scores that better capture contextual relationships than independently encoded embeddings. Only the top-ranked chunks proceed to context construction, improving final answer quality. VI. Multi-Agent Architecture Linear RAG pipelines struggle with complex queries requiring multiple retrieval steps or confidence estimation. The proposed system instead uses a LangGraph-based workflow of specialized agents \u2014 Query Analyze",
+        "chunk_index": 29
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-30",
+        "text": "em instead uses a LangGraph-based workflow of specialized agents \u2014 Query Analyzer, Retrieval Planner, Retrieval Agent, Context Validator, Response Generator, Citation Formatter, Confidence Evaluator, and Reflection Agent \u2014 improving transparency and extensibility. Each agent in the workflow communicates through a shared, structured state object rather than free-form text, allowing every stage to inspect prior decisions and append its own outputs without re-deriving informatio",
+        "chunk_index": 30
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-31",
+        "text": "nspect prior decisions and append its own outputs without re-deriving information already established upstream. This explicit state-passing design also simplifies debugging and auditing, since the complete reasoning trace for any query \u2014 from initial classification through final citation \u2014 can be logged and inspected independently of the language model's generated text. A. Query Analyzer & Retrieval Planner The Query Analyzer classifies intent (greeting, institutional informa",
+        "chunk_index": 31
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-32",
+        "text": "al Planner The Query Analyzer classifies intent (greeting, institutional information, retrieval question, follow-up, administrative request, out-of-scope) to select a reasoning strategy. The Retrieval Planner then determines retrieval scope, metadata filters, department-specific search, and retrieval depth, planning multiple iterations for complex queries. B. Retrieval, Validation, and Generation The Retrieval Agent executes dense search, BM25, RRF, and reranking per the plan",
+        "chunk_index": 32
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-33",
+        "text": "The Retrieval Agent executes dense search, BM25, RRF, and reranking per the plan. The Context Validator removes duplicates, detects weak or outdated evidence, and checks access-level consistency before forwarding validated context. The Response Generator then builds a grounded prompt \u2014 query, retrieved context, institutional instructions, and citation placeholders \u2014 submitted to the locally hosted Qwen2.5:7B model via Ollama. C. Citation, Confidence, and Reflection The Citati",
+        "chunk_index": 33
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-34",
+        "text": "Qwen2.5:7B model via Ollama. C. Citation, Confidence, and Reflection The Citation Formatter attaches document title, section, version, and chunk identifiers to every statement. The Confidence Evaluator combines retrieval scores, reranker relevance, citation count, and context completeness into a High/Medium/Low rating. If confidence is insufficient, the Reflection Agent broadens scope, increases Top-K, relaxes filters, and re-runs retrieval until adequate evidence is found o",
+        "chunk_index": 34
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-35",
+        "text": "Top-K, relaxes filters, and re-runs retrieval until adequate evidence is found or iteration limits are reached \u2014 substantially improving answer quality over single- pass RAG. Query Analyzer \u2193 Retrieval Planner \u2193 Retrieval Agent \u2193 Context Validator \u2193 Response Generator \u2193 Citation Formatter \u2193 Confidence Evaluator \u2193 High \u2192 Final Response | Low \u2192 Reflection Agent (loop) Fig. 3. LangGraph multi-agent workflow with confidence-driven reflection loop. VII. RAG Pipeline and Citation E",
+        "chunk_index": 35
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-36",
+        "text": "orkflow with confidence-driven reflection loop. VII. RAG Pipeline and Citation Engine The end-to-end RAG flow receives the query, executes hybrid retrieval, fuses rankings via RRF, applies reranking, selects Top- K chunks, constructs a grounded prompt, generates a response with the local LLM, and attaches citations and confidence before returning the answer \u2014 minimizing hallucination and ensuring verifiable grounding. The Citation Engine merges adjacent chunks from the same d",
+        "chunk_index": 36
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-37",
+        "text": "verifiable grounding. The Citation Engine merges adjacent chunks from the same document, prioritizes the latest version, flags superseded policies, removes duplicate citations, and generates deterministic identifiers with structured metadata (title, ID, section, version, chunk number, department, source, access level). Deterministic IDs ensure consistency across repeated queries and let the integrated document viewer open the exact referenced source while respecting RBAC. VII",
+        "chunk_index": 37
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-38",
+        "text": "ated document viewer open the exact referenced source while respecting RBAC. VIII. System Architecture A. Backend (FastAPI) FastAPI orchestrates the frontend, authentication, retrieval engine, LLM, document database, and citation services. JWT- based authentication issues stateless access tokens supporting Public, Student, Faculty, and Administrator roles. The backend is containerized with Docker for reproducible deployment. For the deployed instance of the system, the backen",
+        "chunk_index": 38
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-39",
+        "text": "for reproducible deployment. For the deployed instance of the system, the backend (FastAPI server, retrieval pipeline, and the locally hosted Qwen2.5:7B model via Ollama) runs on a Google Colab notebook provisioned with a T4 GPU, providing free hardware acceleration for embedding generation, reranking, and LLM inference without dedicated on-premises infrastructure, while the static frontend is deployed independently on Vercel and communicates with the Colab-hosted backend thr",
+        "chunk_index": 39
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-40",
+        "text": "loyed independently on Vercel and communicates with the Colab-hosted backend through its exposed API endpoint. B. Role-Based Access Control Every indexed chunk carries an access-level field validated against the authenticated user's role before retrieval, following the hierarchy Public \u2192 Student \u2192 Faculty \u2192 Administrator, preventing unauthorized disclosure. Governance is further reinforced by a committee-based document submission workflow: committee heads upload candidate SOP",
+        "chunk_index": 40
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-41",
+        "text": "mmittee-based document submission workflow: committee heads upload candidate SOPs, which are held in a pending state and are ingested, chunked, and embedded only after an administrator explicitly approves them, ensuring human oversight before any new content enters the retrievable knowledge base. A parallel signup-approval flow subjects new Student and Faculty accounts to administrator review before activation. C. Chat, Document Viewer, and Admin APIs The Chat API receives qu",
+        "chunk_index": 41
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-42",
+        "text": "re activation. C. Chat, Document Viewer, and Admin APIs The Chat API receives queries, invokes the LangGraph workflow, streams partial responses, and returns citations, confidence scores, and conversation history. The Document Viewer API streams the original source with referenced chunks highlighted, enforcing version-awareness and access control. Administrative APIs support document upload, metadata management, re-indexing, user management, and retrieval diagnostics. D. Fron",
+        "chunk_index": 42
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-43",
+        "text": "ata management, re-indexing, user management, and retrieval diagnostics. D. Frontend A lightweight single-page application built with vanilla HTML5, CSS3, and JavaScript (served directly by FastAPI during development and deployed in production as static assets on Vercel, communicating with the Google Colab T4 GPU-hosted backend over its exposed API endpoint) provides a role-aware dashboard, streaming chat window, citation panel, conversation history, secure document viewer, c",
+        "chunk_index": 43
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-44",
+        "text": "ing chat window, citation panel, conversation history, secure document viewer, committee document- submission portal, and an administrator dashboard, with role- specific rendering ensuring users see only authorized features. IX. Experimental Evaluation Evaluation targeted four objectives: correctness of ingestion, accuracy of retrieval, reliability of generation, and security of access. The knowledge base was built from 20 SOP documents spanning 20 institutional departments (",
+        "chunk_index": 44
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-45",
+        "text": "dge base was built from 20 SOP documents spanning 20 institutional departments (Admissions, Examination, Finance & Accounts, Training & Placement, Research & Development, and others) of Vidyalankar Institute of Technology, yielding approximately 627 indexed chunks spanning policies, SOPs, regulations, and circulars. The hybrid retrieval pipeline consistently outperformed either semantic or lexical retrieval alone, RBAC correctly blocked unauthorized access to protected docume",
+        "chunk_index": 45
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-46",
+        "text": "retrieval alone, RBAC correctly blocked unauthorized access to protected documents, and deterministic citation generation kept every response traceable to its source. Ingestion correctness was verified by confirming that SHA-256 based duplicate detection prevented redundant indexing across repeated uploads of identical documents, and that extracted metadata (department, category, version, access level) matched source records for every test document. Retrieval accuracy was as",
+        "chunk_index": 46
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-47",
+        "text": "level) matched source records for every test document. Retrieval accuracy was assessed by issuing natural-language queries covering attendance rules, examination eligibility, leave policies, and committee-approval procedures, then manually checking whether the Top-K reranked chunks contained the ground-truth answer; the hybrid configuration recovered relevant chunks in cases where BM25-only or dense-only retrieval missed the answer due to either paraphrased wording or exact-c",
+        "chunk_index": 47
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-48",
+        "text": "se-only retrieval missed the answer due to either paraphrased wording or exact-code lookups, respectively. X. Results and Discussion The complete pipeline \u2014 from ingestion to response generation \u2014 operates entirely on local infrastructure, ensuring privacy and independence from external cloud AI services. The LangGraph workflow successfully coordinated query analysis, planning, validation, generation, citation, and confidence evaluation, with the reflection mechanism proving",
+        "chunk_index": 48
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-49",
+        "text": "ion, citation, and confidence evaluation, with the reflection mechanism proving particularly effective for complex queries requiring additional retrieval iterations. RBAC functioned correctly throughout, and the citation engine produced consistent, traceable references. The system was validated through over 570 automated unit and integration tests covering ingestion, embedding, indexing, retrieval, reranking, citation generation, authentication, streaming, RBAC enforcement, a",
+        "chunk_index": 49
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-50",
+        "text": ", reranking, citation generation, authentication, streaming, RBAC enforcement, and end-to-end RAG functionality, all of which executed successfully. Taken together, these outcomes suggest that the largest practical gains over a conventional single-pass RAG chatbot come not from any single component in isolation, but from their combination: hybrid retrieval supplies broader recall across both phrasing styles and exact identifiers, reranking sharpens precision among the resulti",
+        "chunk_index": 50
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-51",
+        "text": "ing styles and exact identifiers, reranking sharpens precision among the resulting candidates, and the reflection loop provides a safety net for the residual cases where even reranked retrieval is insufficient. This layered redundancy is particularly valuable in an institutional setting, where an incorrect or unsupported answer carries greater consequence than in general- purpose conversational use. TABLE I. SUMMARY OF IMPLEMENTED MODULES Module Status Document Ingestion & Ch",
+        "chunk_index": 51
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-52",
+        "text": "e. TABLE I. SUMMARY OF IMPLEMENTED MODULES Module Status Document Ingestion & Chunking Completed Embedding Generation (BGE) Completed ChromaDB Vector Store Completed Hybrid Retrieval (Dense+BM25+RRF) Completed Cross-Encoder Reranking Completed RAG Response Generation Completed LangGraph Multi-Agent Workflow Completed Citation Engine Completed Confidence Evaluation Completed JWT Auth & RBAC Completed FastAPI Backend / Vanilla JS SPA Completed Automated Testing (570+ tests) Com",
+        "chunk_index": 52
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-53",
+        "text": "ed FastAPI Backend / Vanilla JS SPA Completed Automated Testing (570+ tests) Completed TABLE II. TECHNOLOGY STACK Component Technology Language Python Backend FastAPI Component Technology Frontend HTML5/CSS3/JavaScript (SPA) Vector DB ChromaDB Embedding Model BAAI/bge-base-en-v1.5 Cross-Encoder BAAI/bge-reranker-base LLM Qwen2.5:7B (Ollama, default) / HF Inference API (optional) Multi-Agent LangGraph Auth JWT Testing Pytest Deployment Frontend: Vercel; Backend: Google Colab (",
+        "chunk_index": 53
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-54",
+        "text": "aph Auth JWT Testing Pytest Deployment Frontend: Vercel; Backend: Google Colab (T4 GPU) XI. Novel Contributions \u2022 A comprehensive Agentic AI framework purpose-built for institutional knowledge management. \u2022 Hybrid retrieval integrating dense semantic search with BM25 lexical retrieval. \u2022 Reciprocal Rank Fusion for robust retrieval result aggregation. \u2022 Cross-encoder reranking to improve contextual relevance before generation. \u2022 A citation-aware RAG pipeline grounding every re",
+        "chunk_index": 54
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-55",
+        "text": "relevance before generation. \u2022 A citation-aware RAG pipeline grounding every response in official documents. \u2022 A deterministic citation engine supporting traceability and transparency. \u2022 RBAC integrated directly into the retrieval pipeline. \u2022 A committee-based document submission and admin- approval workflow providing human-in-the-loop governance before ingestion. \u2022 Fully local Qwen2.5:7B deployment via Ollama by default, ensuring institutional privacy, with an optional Hugg",
+        "chunk_index": 55
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-56",
+        "text": "ent via Ollama by default, ensuring institutional privacy, with an optional HuggingFace Inference API backend for scalable cloud deployment. \u2022 A LangGraph multi-agent workflow with planning, validation, reflection, and confidence evaluation. \u2022 A modular, scalable architecture supporting future autonomous institutional AI systems. XII. Future Work Planned extensions include real-time ERP synchronization, intelligent version management, feedback-driven retrieval optimization, l",
+        "chunk_index": 56
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-57",
+        "text": "ation, intelligent version management, feedback-driven retrieval optimization, long-term conversational memory, multi-turn institutional reasoning, department-specific agents, voice and multilingual interaction, an administrator analytics dashboard, distributed/multi-node deployment, mobile integration, and autonomous workflow execution via advanced Agentic AI planning, building on the committee upload and admin-approval portal already implemented. XIII. Conclusion This work",
+        "chunk_index": 57
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-58",
+        "text": "pload and admin-approval portal already implemented. XIII. Conclusion This work presented the design, implementation, and evaluation of EduMind, an Agentic AI Assistant for engineering college knowledge management, integrating RAG, hybrid retrieval, semantic embeddings, BM25, RRF, cross-encoder reranking, LangGraph multi-agent reasoning, deterministic citation generation, and RBAC into a unified platform. By grounding responses exclusively in retrieved institutional documents",
+        "chunk_index": 58
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-59",
+        "text": "latform. By grounding responses exclusively in retrieved institutional documents rather than pretrained knowledge, the system significantly reduces hallucination while improving transparency and trust, with deterministic citations enabling direct verification against official sources. The successful local deployment of embeddings, ChromaDB, hybrid retrieval, Ollama-hosted Qwen2.5:7B, LangGraph orchestration, and secure FastAPI services demonstrates the feasibility of advanced",
+        "chunk_index": 59
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-60",
+        "text": "hestration, and secure FastAPI services demonstrates the feasibility of advanced institutional AI without reliance on external cloud services. The modular design supports future expansion toward autonomous agents, multilingual management, enterprise integration, and intelligent administrative automation \u2014 providing a scalable, privacy- preserving foundation for next-generation AI-driven knowledge management in higher education. References [1] P. Lewis et al., \u201cRetrieval-Augme",
+        "chunk_index": 60
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-61",
+        "text": "management in higher education. References [1] P. Lewis et al., \u201cRetrieval-Augmented Generation for Knowledge- Intensive NLP Tasks,\u201d NeurIPS, vol. 33, 2020. [2] T. Chen et al., \u201cHybrid Search for Dense and Sparse Retrieval,\u201d 2023. [3] S. Robertson and H. Zaragoza, \u201cThe Probabilistic Relevance Framework: BM25 and Beyond,\u201d Found. Trends Inf. Retr., 2009. [4] Y. Xiao et al., \u201cBAAI General Embedding Model (BGE),\u201d 2023. [5] J. Devlin et al., \u201cBERT: Pre-training of Deep Bidirection",
+        "chunk_index": 61
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-62",
+        "text": "odel (BGE),\u201d 2023. [5] J. Devlin et al., \u201cBERT: Pre-training of Deep Bidirectional Transformers for Language Understanding,\u201d NAACL, 2019. [6] T. Mikolov et al., \u201cEfficient Estimation of Word Representations in Vector Space,\u201d 2013. [7] LangChain AI, LangGraph Documentation. [8] FastAPI Documentation. [9] ChromaDB Documentation. [10] Ollama Documentation. [11] N. Reimers and I. Gurevych, \u201cSentence-BERT,\u201d EMNLP, 2019. [12] C. Manning, P. Raghavan, and H. Sch\u00fctze, Introduction to",
+        "chunk_index": 62
+      },
+      {
+        "id": "1dc77810-bd25-4da9-804b-910933fe06ce-chunk-63",
+        "text": "ERT,\u201d EMNLP, 2019. [12] C. Manning, P. Raghavan, and H. Sch\u00fctze, Introduction to Information Retrieval. Cambridge Univ. Press, 2008. [13] T. Brown et al., \u201cLanguage Models are Few-Shot Learners,\u201d NeurIPS, 2020. [14] IEEE Editorial Style Manual, IEEE Standards Association.",
+        "chunk_index": 63
+      }
+    ]
+  }
+]

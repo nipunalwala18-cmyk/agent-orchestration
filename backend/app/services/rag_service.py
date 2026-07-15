@@ -1,19 +1,45 @@
 import json
+import logging
 import re
 import uuid
 from io import BytesIO
 from pathlib import Path
 from typing import Any
 
+from openai import AsyncOpenAI
+
+from app.core.config import settings
+
+logger = logging.getLogger("platform.rag")
+
+# OpenRouter base URL (OpenAI-compatible API)
+OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
+
+# Model to use for RAG answer generation (via OpenRouter)
+RAG_MODEL = "google/gemini-2.5-flash"
+
 
 class RAGService:
-    """A lightweight local RAG service for indexing uploaded PDFs and answering questions."""
+    """A lightweight local RAG service for indexing uploaded PDFs and answering questions.
+
+    Uses keyword-based retrieval for chunk matching and OpenRouter-hosted LLMs for
+    synthesizing answers from the retrieved context.
+    """
 
     def __init__(self, storage_dir: str | Path | None = None) -> None:
         self.storage_dir = Path(storage_dir or Path(__file__).resolve().parents[1] / "storage" / "rag")
         self.storage_dir.mkdir(parents=True, exist_ok=True)
         self.index_path = self.storage_dir / "index.json"
         self.documents: list[dict[str, Any]] = self._load_documents()
+
+        # Initialise the async OpenAI-compatible client pointing to OpenRouter
+        api_key = settings.OPENROUTER_API_KEY
+        self._llm_available = bool(api_key and api_key.startswith("sk-or-"))
+        self._client: AsyncOpenAI | None = (
+            AsyncOpenAI(api_key=api_key, base_url=OPENROUTER_BASE_URL)
+            if self._llm_available
+            else None
+        )
 
     def _load_documents(self) -> list[dict[str, Any]]:
         if not self.index_path.exists():
@@ -110,13 +136,8 @@ class RAGService:
             "chunk_count": len(document["chunks"]),
         }
 
-    def query(self, question: str, top_k: int = 3) -> dict[str, Any]:
-        if not question.strip():
-            return {"answer": "Please provide a question.", "citations": []}
-
-        if not self.documents:
-            return {"answer": "No documents have been uploaded yet.", "citations": []}
-
+    def _retrieve_chunks(self, question: str, top_k: int = 3) -> list[dict[str, Any]]:
+        """Retrieve the most relevant chunks for a given question."""
         scored_chunks: list[dict[str, Any]] = []
         for document in self.documents:
             for chunk in document["chunks"]:
@@ -141,15 +162,67 @@ class RAGService:
                     "chunk_index": document["chunks"][0]["chunk_index"],
                 }
                 for document in self.documents
+                if document["chunks"]
             ]
-            scored_chunks = fallback_chunks[:top_k]
-        else:
-            scored_chunks = scored_chunks[:top_k]
+            return fallback_chunks[:top_k]
 
-        best_chunk = scored_chunks[0]
-        answer = (
-            f"Based on the uploaded content, the strongest match suggests: {best_chunk['text'][:260]}"
+        return scored_chunks[:top_k]
+
+    async def _generate_answer(self, question: str, context_chunks: list[dict[str, Any]]) -> str:
+        """Use OpenAI GPT to synthesize an answer from the retrieved context chunks."""
+        # Build context from chunks
+        context_parts = []
+        for i, chunk in enumerate(context_chunks, 1):
+            context_parts.append(f"[Source: {chunk['source']}, Chunk {chunk['chunk_index'] + 1}]\n{chunk['text']}")
+        context = "\n\n---\n\n".join(context_parts)
+
+        system_prompt = (
+            "You are a helpful assistant that answers questions based on the provided document context. "
+            "Use ONLY the information from the context below to answer the question. "
+            "If the context doesn't contain enough information, say so clearly. "
+            "Provide a clear, well-structured, and informative answer. "
+            "When relevant, use bullet points or numbered lists for clarity."
         )
+
+        user_prompt = f"## Context from uploaded documents:\n\n{context}\n\n## Question:\n{question}"
+
+        try:
+            response = await self._client.chat.completions.create(
+                model=RAG_MODEL,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt},
+                ],
+                temperature=0.3,
+                max_tokens=1024,
+            )
+            return response.choices[0].message.content.strip()
+        except Exception as e:
+            logger.error(f"OpenRouter API call failed: {e}", exc_info=True)
+            print(f"[RAG ERROR] OpenRouter API call failed: {type(e).__name__}: {e}", flush=True)
+            # Fallback to chunk-based answer
+            best = context_chunks[0]
+            return f"(LLM unavailable – showing best match) {best['text'][:400]}"
+
+    async def query(self, question: str, top_k: int = 3) -> dict[str, Any]:
+        if not question.strip():
+            return {"answer": "Please provide a question.", "citations": []}
+
+        if not self.documents:
+            return {"answer": "No documents have been uploaded yet.", "citations": []}
+
+        # Retrieve relevant chunks
+        top_chunks = self._retrieve_chunks(question, top_k)
+
+        # Generate answer using LLM or fallback
+        if self._llm_available and self._client:
+            answer = await self._generate_answer(question, top_chunks)
+        else:
+            best = top_chunks[0]
+            answer = f"Based on the uploaded content, the strongest match suggests: {best['text'][:260]}"
+            logger.warning(
+                "OpenRouter API key not configured. Set a valid OPENROUTER_API_KEY in .env for LLM-powered answers."
+            )
 
         citations = [
             {
@@ -158,6 +231,7 @@ class RAGService:
                 "text": item["text"],
                 "score": round(item["score"], 2),
             }
-            for item in scored_chunks
+            for item in top_chunks
         ]
         return {"answer": answer, "citations": citations}
+

@@ -39,8 +39,8 @@ class Settings(BaseSettings):
     # Redis Configuration
     REDIS_URL: str
 
-    # AI/LLM SDK Integration
-    OPENAI_API_KEY: str = ""
+    # AI/LLM SDK Integration (OpenRouter)
+    OPENROUTER_API_KEY: str = ""
 
     # Google OAuth Configuration
     GOOGLE_CLIENT_ID: Optional[str] = None
