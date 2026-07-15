@@ -42,6 +42,10 @@ class Settings(BaseSettings):
     # AI/LLM SDK Integration (OpenRouter)
     OPENROUTER_API_KEY: str = ""
 
+    # Web Search Integration
+    TAVILY_API_KEY: str = ""
+    SERPER_API_KEY: str = ""
+
     # Google OAuth Configuration
     GOOGLE_CLIENT_ID: Optional[str] = None
 

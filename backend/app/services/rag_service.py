@@ -9,6 +9,7 @@ from typing import Any
 from openai import AsyncOpenAI
 
 from app.core.config import settings
+from app.services.web_search import WebSearchService
 
 logger = logging.getLogger("platform.rag")
 
@@ -40,6 +41,8 @@ class RAGService:
             if self._llm_available
             else None
         )
+        
+        self._web_search = WebSearchService()
 
     def _load_documents(self) -> list[dict[str, Any]]:
         if not self.index_path.exists():
@@ -168,23 +171,38 @@ class RAGService:
 
         return scored_chunks[:top_k]
 
-    async def _generate_answer(self, question: str, context_chunks: list[dict[str, Any]]) -> str:
+    async def _generate_answer(
+        self, question: str, context_chunks: list[dict[str, Any]], web_chunks: list[dict[str, Any]]
+    ) -> str:
         """Use OpenAI GPT to synthesize an answer from the retrieved context chunks."""
-        # Build context from chunks
+        # Build context from internal chunks
         context_parts = []
-        for i, chunk in enumerate(context_chunks, 1):
-            context_parts.append(f"[Source: {chunk['source']}, Chunk {chunk['chunk_index'] + 1}]\n{chunk['text']}")
-        context = "\n\n---\n\n".join(context_parts)
+        if context_chunks:
+            context_parts.append("### Internal Documentation")
+            for i, chunk in enumerate(context_chunks, 1):
+                context_parts.append(f"[Source: Internal Document - {chunk['source']}, Chunk {chunk['chunk_index'] + 1}]\n{chunk['text']}")
+        
+        # Build context from web chunks
+        if web_chunks:
+            context_parts.append("\n### Internet Search Results")
+            for i, chunk in enumerate(web_chunks, 1):
+                context_parts.append(f"[Source: Internet - {chunk['title']}]\nURL: {chunk['url']}\n{chunk['text']}")
+                
+        context = "\n\n".join(context_parts)
 
         system_prompt = (
-            "You are a helpful assistant that answers questions based on the provided document context. "
+            "You are a helpful assistant that answers questions based on the provided context. "
             "Use ONLY the information from the context below to answer the question. "
             "If the context doesn't contain enough information, say so clearly. "
+            "IMPORTANT INSTRUCTIONS:\n"
+            "1. Prefer internal documentation over internet sources when answering.\n"
+            "2. Use web information to supplement missing or outdated information.\n"
+            "3. Never invent facts.\n"
             "Provide a clear, well-structured, and informative answer. "
             "When relevant, use bullet points or numbered lists for clarity."
         )
 
-        user_prompt = f"## Context from uploaded documents:\n\n{context}\n\n## Question:\n{question}"
+        user_prompt = f"## Context:\n\n{context}\n\n## Question:\n{question}"
 
         try:
             response = await self._client.chat.completions.create(
@@ -208,30 +226,47 @@ class RAGService:
         if not question.strip():
             return {"answer": "Please provide a question.", "citations": []}
 
-        if not self.documents:
-            return {"answer": "No documents have been uploaded yet.", "citations": []}
+        # Retrieve relevant chunks from internal docs (if any)
+        top_chunks = []
+        if self.documents:
+            top_chunks = self._retrieve_chunks(question, top_k)
+            
+        # Retrieve web search results
+        web_results = await self._web_search.search(question, top_k=top_k)
 
-        # Retrieve relevant chunks
-        top_chunks = self._retrieve_chunks(question, top_k)
+        if not top_chunks and not web_results:
+            return {"answer": "No documents uploaded and web search returned no results.", "citations": []}
 
         # Generate answer using LLM or fallback
         if self._llm_available and self._client:
-            answer = await self._generate_answer(question, top_chunks)
+            answer = await self._generate_answer(question, top_chunks, web_results)
         else:
-            best = top_chunks[0]
-            answer = f"Based on the uploaded content, the strongest match suggests: {best['text'][:260]}"
+            if top_chunks:
+                best = top_chunks[0]
+                answer = f"Based on the uploaded content, the strongest match suggests: {best['text'][:260]}"
+            else:
+                best = web_results[0]
+                answer = f"Based on internet results, the strongest match suggests: {best['text'][:260]}"
             logger.warning(
                 "OpenRouter API key not configured. Set a valid OPENROUTER_API_KEY in .env for LLM-powered answers."
             )
 
-        citations = [
-            {
-                "source": item["source"],
+        citations = []
+        for item in top_chunks:
+            citations.append({
+                "source": f"Internal: {item['source']}",
                 "chunk_index": item["chunk_index"],
                 "text": item["text"],
                 "score": round(item["score"], 2),
-            }
-            for item in top_chunks
-        ]
+            })
+            
+        for i, res in enumerate(web_results):
+            citations.append({
+                "source": f"Internet: {res['url']}",
+                "chunk_index": i,
+                "text": res["text"],
+                "score": 1.0,
+            })
+            
         return {"answer": answer, "citations": citations}
 
