@@ -2,13 +2,15 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useAuthStore } from "../../../store/auth";
-import { Send, Bot, User, Trash2 } from "lucide-react";
+import { Send, Bot, User, Trash2, UploadCloud } from "lucide-react";
+import { api } from "../../../services/api";
 
 interface Message {
   id: string;
   sender: "user" | "assistant";
   text: string;
   timestamp: string;
+  citations?: Array<{ source: string; chunk_index: number; text: string; score: number }>;
 }
 
 export default function ChatPage() {
@@ -16,9 +18,9 @@ export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
   useEffect(() => {
     const savedHistory = localStorage.getItem("chat_history");
@@ -29,6 +31,51 @@ export default function ChatPage() {
 
   const saveHistory = (history: Message[]) => {
     localStorage.setItem("chat_history", JSON.stringify(history));
+  };
+
+  const handleUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file || !accessToken) return;
+
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("source_name", file.name);
+
+    try {
+      const response = await api.post("/v1/rag/upload", formData);
+
+      const payload = response.data;
+      const uploadMessage: Message = {
+        id: crypto.randomUUID(),
+        sender: "assistant",
+        text: `Uploaded ${file.name}. The document is now available for RAG questions.`,
+        timestamp: new Date().toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+      };
+      const nextMessages = [...messages, uploadMessage];
+      setMessages(nextMessages);
+      saveHistory(nextMessages);
+    } catch (err: any) {
+      console.error("Upload error:", err);
+      const errorMessage: Message = {
+        id: crypto.randomUUID(),
+        sender: "assistant",
+        text: `Upload failed: ${err?.message || "Unknown error"}. Please try a PDF or text file.`,
+        timestamp: new Date().toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+      };
+      const nextMessages = [...messages, errorMessage];
+      setMessages(nextMessages);
+      saveHistory(nextMessages);
+    } finally {
+      setUploading(false);
+      event.target.value = "";
+    }
   };
 
   const handleSend = async (e: React.FormEvent) => {
@@ -69,46 +116,27 @@ export default function ChatPage() {
     setMessages((prev) => [...prev, botMsg]);
 
     try {
-      const response = await fetch(
-        `${API_URL}/api/v1/chat/stream?prompt=${encodeURIComponent(userMessageText)}`,
+      const ragResponse = await api.post(
+        "/v1/rag/query",
+        new URLSearchParams({ question: userMessageText, top_k: "3" }).toString(),
         {
-          method: "POST",
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/x-www-form-urlencoded",
           },
         }
       );
 
-      if (!response.ok) {
-        throw new Error("Failed to contact the streaming service.");
-      }
+      const result = ragResponse.data.data ?? {};
+      const answerText = result.answer || "No answer available.";
+      const citations = result.citations || [];
 
-      const reader = response.body?.getReader();
-      const decoder = new TextDecoder();
-      if (!reader) throw new Error("Null reader on stream.");
-
-      let assistantText = "";
-      while (true) {
-        const { value, done } = await reader.read();
-        if (done) break;
-
-        const rawChunk = decoder.decode(value);
-        const lines = rawChunk.split("\n\n");
-        for (const line of lines) {
-          if (line.startsWith("data: ")) {
-            const word = line.replace("data: ", "");
-            assistantText += (assistantText ? " " : "") + word;
-
-            setMessages((prev) =>
-              prev.map((msg) =>
-                msg.id === assistantMsgId
-                  ? { ...msg, text: assistantText }
-                  : msg
-              )
-            );
-          }
-        }
-      }
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === assistantMsgId
+            ? { ...msg, text: answerText, citations }
+            : msg
+        )
+      );
 
       setMessages((prev) => {
         saveHistory(prev);
@@ -225,6 +253,20 @@ export default function ChatPage() {
                   </span>
                 )}
               </p>
+              {msg.sender === "assistant" && msg.citations && msg.citations.length > 0 && (
+                <div className="mt-3 border-t border-zinc-200 dark:border-zinc-700 pt-2">
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                    Sources
+                  </p>
+                  <ul className="mt-1 space-y-1 text-xs text-zinc-600 dark:text-zinc-300">
+                    {msg.citations.map((citation, index) => (
+                      <li key={`${citation.source}-${index}`}>
+                        <span className="font-medium">{citation.source}</span> · chunk {citation.chunk_index + 1}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
               <span className="block text-[10px] text-zinc-400 mt-2 text-right">
                 {msg.timestamp}
               </span>
@@ -239,23 +281,41 @@ export default function ChatPage() {
         onSubmit={handleSend}
         className="p-4 border-t border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-800/20"
       >
-        <div className="relative flex items-center">
+        <div className="flex items-center gap-2">
           <input
-            type="text"
-            required
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            disabled={loading}
-            placeholder="Type your message here..."
-            className="block w-full py-3.5 pl-4 pr-12 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-2xl text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-violet-500 dark:focus:ring-violet-400 transition-colors"
+            type="file"
+            ref={fileInputRef}
+            onChange={handleUpload}
+            className="hidden"
+            accept=".pdf,.txt"
           />
           <button
-            type="submit"
-            disabled={!input.trim() || loading}
-            className="absolute right-2 p-2.5 rounded-xl bg-violet-600 hover:bg-violet-700 disabled:opacity-50 text-white shadow-md shadow-violet-500/10 transition-colors"
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={uploading}
+            className="p-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-700 transition-colors"
+            title="Upload a PDF or text document"
           >
-            <Send className="h-4.5 w-4.5" />
+            {uploading ? <span className="h-4 w-4 animate-spin rounded-full border-2 border-violet-500 border-t-transparent" /> : <UploadCloud className="h-4.5 w-4.5" />}
           </button>
+          <div className="relative flex-1">
+            <input
+              type="text"
+              required
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              disabled={loading}
+              placeholder="Ask a question about your uploaded documents..."
+              className="block w-full py-3.5 pl-4 pr-12 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-2xl text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-violet-500 dark:focus:ring-violet-400 transition-colors"
+            />
+            <button
+              type="submit"
+              disabled={!input.trim() || loading}
+              className="absolute right-2 p-2.5 rounded-xl bg-violet-600 hover:bg-violet-700 disabled:opacity-50 text-white shadow-md shadow-violet-500/10 transition-colors"
+            >
+              <Send className="h-4.5 w-4.5" />
+            </button>
+          </div>
         </div>
       </form>
     </div>

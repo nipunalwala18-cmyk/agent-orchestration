@@ -1,13 +1,10 @@
 import axios from "axios";
 import { useAuthStore } from "../store/auth";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API_URL = "/api";
 
 export const api = axios.create({
   baseURL: API_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
 // Request Interceptor: Attach active JWT access token
@@ -87,16 +84,14 @@ api.interceptors.response.use(
 
       try {
         // Request token refresh
-        const res = await axios.post(`${API_URL}/api/v1/auth/refresh`, {
+        const res = await axios.post("/api/v1/auth/refresh", {
           refresh_token: refreshToken,
         });
 
         const { access_token, refresh_token } = res.data.data;
 
         // Fetch user profile using the new access token
-        const meRes = await axios.get(`${API_URL}/api/v1/auth/me`, {
-          headers: {
-            Authorization: `Bearer ${access_token}`,
+        const meRes = await axios.get("/api/v1/auth/me", {
           },
         });
 
