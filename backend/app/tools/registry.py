@@ -1,6 +1,6 @@
 """Tool discovery and common execution interface."""
 
-from typing import Any, Dict, Iterable, Type, TypeVar
+from typing import Any, Collection, Dict, Iterable, Type, TypeVar
 
 from app.tools.base import BaseTool
 
@@ -33,11 +33,27 @@ class ToolRegistry:
         except KeyError as exc:
             raise KeyError(f"Tool '{name}' is not registered.") from exc
 
-    async def execute(self, name: str, **kwargs: Any) -> Any:
+    async def execute(
+        self,
+        name: str,
+        *,
+        granted_permissions: Collection[str] | None = None,
+        **kwargs: Any,
+    ) -> Any:
         tool = self.get(name)
+        if granted_permissions is not None:
+            missing = tool.permissions().difference(granted_permissions)
+            if missing:
+                missing_names = ", ".join(sorted(missing))
+                raise PermissionError(
+                    f"Missing permission(s) for tool '{name}': {missing_names}."
+                )
         if not tool.validate(**kwargs):
             raise ValueError(f"Invalid input for tool '{name}'.")
         return await tool.execute(**kwargs)
+
+    def has(self, name: str) -> bool:
+        return name in self._tools
 
     def names(self) -> Iterable[str]:
         return tuple(self._tools)

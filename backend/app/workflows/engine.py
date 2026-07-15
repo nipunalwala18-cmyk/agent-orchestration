@@ -1,7 +1,7 @@
 """Execution facade over the reusable LangGraph workflow."""
 
 from dataclasses import dataclass
-from typing import AsyncIterator, Dict, Optional
+from typing import AsyncIterator, Dict, FrozenSet, Optional
 from uuid import uuid4
 
 from app.agents.planner import PlannerAgent
@@ -22,8 +22,9 @@ class WorkflowEngine:
     """Runs and streams the default graph while exposing no LangGraph internals."""
 
     _EVENTS = {
-        "plan": "Planner selected Dummy Tool...",
-        "tool": "Executing Dummy Tool...",
+        "load_memory": "Loaded conversation memory...",
+        "plan": "Planner selected tool...",
+        "tool": "Executing selected tool...",
         "memory": "Updating Memory...",
     }
 
@@ -31,18 +32,36 @@ class WorkflowEngine:
         self._graph = build_orchestration_graph(planner, tools, memory)
 
     @staticmethod
-    def _initial_state(request: str, conversation_id: Optional[str]) -> OrchestrationState:
-        return {"request": request, "conversation_id": conversation_id or str(uuid4())}
+    def _initial_state(
+        request: str, conversation_id: Optional[str], permissions: Optional[FrozenSet[str]]
+    ) -> OrchestrationState:
+        state: OrchestrationState = {
+            "request": request,
+            "conversation_id": conversation_id or str(uuid4()),
+        }
+        if permissions is not None:
+            state["permissions"] = permissions
+        return state
 
-    async def execute(self, request: str, conversation_id: Optional[str] = None) -> OrchestrationState:
-        return await self._graph.ainvoke(self._initial_state(request, conversation_id))
+    async def execute(
+        self,
+        request: str,
+        conversation_id: Optional[str] = None,
+        permissions: Optional[FrozenSet[str]] = None,
+    ) -> OrchestrationState:
+        return await self._graph.ainvoke(
+            self._initial_state(request, conversation_id, permissions)
+        )
 
     async def stream(
-        self, request: str, conversation_id: Optional[str] = None
+        self,
+        request: str,
+        conversation_id: Optional[str] = None,
+        permissions: Optional[FrozenSet[str]] = None,
     ) -> AsyncIterator[WorkflowEvent]:
         yield WorkflowEvent("status", "Planning request...")
         async for update in self._graph.astream(
-            self._initial_state(request, conversation_id), stream_mode="updates"
+            self._initial_state(request, conversation_id, permissions), stream_mode="updates"
         ):
             for node_name, state_update in update.items():
                 data: Optional[Dict[str, str]] = None
@@ -51,5 +70,18 @@ class WorkflowEngine:
                     data = {"tool_name": plan.steps[0].tool_name}
                 elif node_name == "tool":
                     data = {"response": state_update["response"]}
-                yield WorkflowEvent("status", self._EVENTS[node_name], data)
+                message = self._EVENTS.get(node_name, f"Workflow node {node_name} completed...")
+                if node_name == "plan":
+                    tool_label = plan.steps[0].tool_name.replace("_", " ").title()
+                    message = f"Planner selected {tool_label} Tool..."
+                if node_name == "tool":
+                    tool_label = (
+                        state_update["tool_result"].get("tool_name", "selected")
+                        .replace("_", " ")
+                        .title()
+                    )
+                    message = f"Executing {tool_label} Tool..."
+                if node_name == "load_memory":
+                    message = "Loaded conversation memory..."
+                yield WorkflowEvent("status", message, data)
         yield WorkflowEvent("complete", "Workflow Complete...")

@@ -136,6 +136,29 @@ depends only on the `MemoryStore` abstraction, so an in-memory implementation ca
 replaced with Redis or a vector-backed adapter without changing graph nodes. New tools
 are registered through `ToolRegistry`, and new agents through `AgentRegistry`.
 
+### Phase 3 tool registry
+
+Every tool implements the shared async interface: `execute`, `validate`, `permissions`,
+and `metadata`. The registry validates requests and enforces each tool's declared RBAC
+permission before dispatch. The initial registered capabilities are `dummy`,
+`web_search`, `sql`, `email`, and `rag`; the Phase 3 providers are deterministic
+adapters only and make no network, database, or email side effects. The planner selects
+one of these tools from intent keywords and executes it through the registry.
+
+### Phase 4 memory
+
+`MemoryService` now loads conversation history before planning and persists both
+messages and the latest workflow checkpoint after execution. `RedisMemoryStore` is the
+short-term adapter (conversation messages plus expiring workflow state), while
+`PostgresMemoryStore` is a repository adapter for durable history and user preference
+storage. The latter receives a repository so deployments can choose their existing
+PostgreSQL schema without coupling LangGraph nodes to SQLAlchemy models.
+
+Planner context resolves simple references against the latest assistant result. After
+`Generate sales report`, a follow-up `Email it` is planned as an email operation
+containing the previous result. A vector database can be added as another `MemoryStore`
+implementation without changing the workflow or planner contracts.
+
 ---
 
 ### Frontend Setup

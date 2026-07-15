@@ -1,7 +1,7 @@
 """Application service that shields workflows from memory storage details."""
 
 from datetime import datetime, timezone
-from typing import List
+from typing import Any, Dict, List
 
 from app.memory.base import MemoryMessage, MemoryStore
 
@@ -13,6 +13,9 @@ class MemoryService:
     async def history(self, conversation_id: str) -> List[MemoryMessage]:
         return await self._store.get_history(conversation_id)
 
+    async def workflow_state(self, conversation_id: str) -> Dict[str, Any]:
+        return await self._store.get_workflow_state(conversation_id)
+
     async def record_exchange(
         self, conversation_id: str, user_input: str, assistant_output: str
     ) -> None:
@@ -21,3 +24,8 @@ class MemoryService:
         await self._store.append(
             conversation_id, MemoryMessage("assistant", assistant_output, now)
         )
+
+    async def save_workflow_state(
+        self, conversation_id: str, state: Dict[str, Any]
+    ) -> None:
+        await self._store.save_workflow_state(conversation_id, state)

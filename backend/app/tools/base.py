@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, Dict
+from typing import Any, Dict, FrozenSet
 
 
 class BaseTool(ABC):
@@ -13,6 +13,11 @@ class BaseTool(ABC):
     @abstractmethod
     def validate(self, **kwargs: Any) -> bool:
         """Validate input arguments before execution."""
+        pass
+
+    @abstractmethod
+    def permissions(self) -> FrozenSet[str]:
+        """Return RBAC permissions required to invoke this tool."""
         pass
 
     @abstractmethod

@@ -1,16 +1,16 @@
-"""A deterministic tool for validating orchestration end to end."""
+"""Web-search tool contract placeholder for provider integration."""
 
 from typing import Any, Dict, FrozenSet
 
 from app.tools.base import BaseTool
 
 
-class DummyTool(BaseTool):
-    """Echoes supplied text without relying on external systems."""
+class WebSearchTool(BaseTool):
+    """Provides a deterministic result until a search provider is configured."""
 
     async def execute(self, **kwargs: Any) -> Dict[str, str]:
-        input_text = str(kwargs["input_text"]).strip()
-        return {"output": f"Dummy Tool processed: {input_text}"}
+        query = kwargs["input_text"].strip()
+        return {"output": f"Web Search queued for: {query}"}
 
     def validate(self, **kwargs: Any) -> bool:
         return isinstance(kwargs.get("input_text"), str) and bool(kwargs["input_text"].strip())
@@ -20,7 +20,7 @@ class DummyTool(BaseTool):
 
     def metadata(self) -> Dict[str, Any]:
         return {
-            "name": "dummy",
-            "description": "Echoes user input for orchestration validation.",
+            "name": "web_search",
+            "description": "Searches public web sources for a user query.",
             "args_schema": {"input_text": "string"},
         }

@@ -1,16 +1,16 @@
-"""A deterministic tool for validating orchestration end to end."""
+"""Email tool contract placeholder for a future provider adapter."""
 
 from typing import Any, Dict, FrozenSet
 
 from app.tools.base import BaseTool
 
 
-class DummyTool(BaseTool):
-    """Echoes supplied text without relying on external systems."""
+class EmailTool(BaseTool):
+    """Produces a deterministic dispatch acknowledgement without sending email."""
 
     async def execute(self, **kwargs: Any) -> Dict[str, str]:
-        input_text = str(kwargs["input_text"]).strip()
-        return {"output": f"Dummy Tool processed: {input_text}"}
+        message = kwargs["input_text"].strip()
+        return {"output": f"Email Tool queued message request: {message}"}
 
     def validate(self, **kwargs: Any) -> bool:
         return isinstance(kwargs.get("input_text"), str) and bool(kwargs["input_text"].strip())
@@ -20,7 +20,7 @@ class DummyTool(BaseTool):
 
     def metadata(self) -> Dict[str, Any]:
         return {
-            "name": "dummy",
-            "description": "Echoes user input for orchestration validation.",
+            "name": "email",
+            "description": "Sends email through a future provider adapter.",
             "args_schema": {"input_text": "string"},
         }
